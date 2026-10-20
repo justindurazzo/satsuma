@@ -131,7 +131,7 @@ const MINIATURA_DEMO =
   );
 
 // Fake files of demo mode with several files
-const FOTOS_DEMO = [1, 2, 3, 4, 5].map((n) => `/demo/foto${n}.png`);
+const FOTOS_DEMO = [1, 2, 3, 4, 5].map((n) => `/demo/photo${n}.png`);
 const TAMANOS_DEMO = [3.1, 1.2, 4.8, 0.9, 2.2];
 const demoVarios = params.get("demo") || "";
 let progresoGlobalDemo = null;
@@ -150,7 +150,7 @@ async function convertirVariosDemo(rutas) {
   const resultado = { outputs: rutas.map((r) => r.replace(".png", ".jpg")), skipped: [], failed: [] };
   if (demoVarios === "variosfallo") {
     resultado.outputs.splice(2, 1);
-    resultado.failed = [{ name: "foto3.png", error: t("demo.damaged") }];
+    resultado.failed = [{ name: "photo3.png", error: t("demo.damaged") }];
   }
   if (demoVarios === "variossaltados") {
     resultado.outputs = resultado.outputs.slice(0, 3);
@@ -168,10 +168,10 @@ function progresoDemo(alProgreso) {
 
 // Fake files and tools of demo mode (?demo=...&tipo=imagen|audio|video|pdf)
 const ARCHIVOS_DEMO = {
-  imagen: "/demo/foto.jpg",
-  audio: "/demo/ejemplo.wav",
+  imagen: "/demo/photo.jpg",
+  audio: "/demo/sample.wav",
   video: "/demo/video.mp4",
-  pdf: "/demo/documento.pdf",
+  pdf: "/demo/document.pdf",
 };
 // Fake language and color of demo mode (?accent=blue tries a color at startup)
 const PREFS_DEMO = { language: "auto", accent: params.get("accent") || "orange" };
@@ -314,9 +314,9 @@ const api = demo
         archivoDemo = alArchivo;
         return () => (archivoDemo = null);
       },
-      convert: async () => {
+      convert: async (path, format) => {
         await esperar(3200);
-        return "/demo/ejemplo.mp3";
+        return path.replace(/\.[^.\/]+$/, "." + format);
       },
       convert_many: convertirVariosDemo,
       take_warnings: async () => [],
@@ -389,6 +389,12 @@ function mostrarVista(nombre, estado) {
 
 // Flow A: closes the app. Flow B: goes back to the start circle.
 function salir() {
+  // Demo embedded in the website (?loop): go back to the wheel instead of the empty start screen
+  if (demo && params.has("loop")) {
+    mostrarInicio();
+    cargarArchivos([rutaDemo("imagen")]);
+    return;
+  }
   if (modoLibre) mostrarInicio();
   else api.quit();
 }
@@ -1078,7 +1084,7 @@ function alHacerClic(e) {
     else if (nivel !== "conversion" && distanciaAlCentro(e.clientX, e.clientY) < R_INT) volverNivel();
     else if (fueraDeRueda(e.clientX, e.clientY)) salir();
   } else if (vistaActual === "inicio" && demo && e.target.closest("#circulo")) {
-    cargarArchivos(["/demo/ejemplo.wav"]);
+    cargarArchivos(["/demo/sample.wav"]);
   }
 }
 
@@ -1231,7 +1237,7 @@ async function estadoDemo(estado) {
   await cargarArchivos(varios ? FOTOS_DEMO : [ruta]);
   if (varios && estado !== "variosrueda" && estado !== "variosnocomun") convertir(0);
   if (estado === "convirtiendo") convertir(0);
-  if (estado === "listo") mostrarListo("ejemplo.mp3");
+  if (estado === "listo") mostrarListo("sample.mp3");
   if (estado === "error") mostrarError(t("demo.ffmpegMissing"));
   if (estado === "aviso") mostrarAviso(t("error.notSupported"), "ejemplo.xyz");
   if (deHerramientas) await demoHerramientas(estado);

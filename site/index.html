@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Satsuma: a file converter for your Mac</title>
+  <meta name="description" content="Right-click a file, pick a format from a wheel next to your cursor, and the converted copy appears beside the original. Free, local, open source.">
+  <meta property="og:title" content="Satsuma">
+  <meta property="og:description" content="Right-click a file. Pick a format. Done. A free file converter for macOS.">
+  <meta property="og:image" content="https://justindurazzo.github.io/satsuma/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #000;
+      --paper: #f4efe9;
+      --ash: #8c857e;
+      --hair: #1e1b19;
+      --satsuma: #f26a1b;
+      --measure: 34rem;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--void); overflow-x: clip; }
+    body {
+      margin: 0;
+      color: var(--paper);
+      font: 400 1.0625rem/1.55 "Schibsted Grotesk", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--satsuma); outline-offset: 4px; border-radius: 4px; }
+
+    .top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem clamp(1.25rem, 4vw, 3rem);
+    }
+    .mark { display: flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: -.01em; text-decoration: none; }
+    .mark img { width: 26px; height: 26px; }
+    .top nav a { color: var(--ash); text-decoration: none; }
+    .top nav a:hover { color: var(--paper); }
+
+    /* Hero: the real wheel, running in demo mode */
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; padding: 0 1.25rem 7rem; }
+    .stage { position: relative; overflow: hidden; margin-top: -1rem; width: min(460px, 100%); aspect-ratio: 1; }
+    .stage iframe { position: absolute; inset: 0; width: 460px; height: 460px; border: 0; background: transparent; transform-origin: 0 0; }
+    .hint { margin: -.5rem 0 0; color: var(--ash); font-size: .9375rem; min-height: 1.5em; transition: opacity .4s; }
+    h1 {
+      margin: 2rem 0 0;
+      font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+    .lede { text-wrap: balance; margin: 1.25rem auto 0; max-width: var(--measure); color: var(--ash); font-size: 1.1875rem; }
+    .cta { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; justify-content: center; align-items: center; }
+    .download {
+      display: inline-flex; align-items: center; gap: .65rem;
+      padding: .95rem 1.6rem; border-radius: 999px;
+      background: var(--satsuma); color: #000; font-weight: 700; text-decoration: none;
+      transition: background .2s;
+    }
+    .download:hover { background: #ff8a3d; }
+    .download svg { width: 18px; height: 18px; }
+    .source { color: var(--ash); text-decoration: none; }
+    .source:hover { color: var(--paper); }
+    .fine { margin: 1.25rem 0 0; color: var(--ash); font-size: .875rem; }
+
+    /* Quiet rows below */
+    .rows { max-width: 64rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem) 4rem; }
+    .row {
+      display: grid; grid-template-columns: 13rem 1fr; gap: 1rem 2rem;
+      padding: 2.75rem 0; border-top: 1px solid var(--hair);
+    }
+    .row h2 { margin: 0; font-size: 1.0625rem; font-weight: 500; color: var(--ash); }
+    .row p { margin: 0; max-width: var(--measure); }
+    .kinds { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.1rem 2rem; }
+    .kinds b { display: block; font-weight: 500; }
+    .kinds span { color: var(--ash); font-size: .9375rem; }
+    .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 1.1rem; max-width: var(--measure); }
+    .steps li { counter-increment: s; display: grid; grid-template-columns: 1.75rem 1fr; }
+    .steps li::before { content: counter(s); color: var(--satsuma); font-weight: 700; }
+    .steps code { font: inherit; color: var(--paper); background: var(--hair); padding: .1em .4em; border-radius: 4px; }
+    .steps small { display: block; color: var(--ash); font-size: .9375rem; margin-top: .25rem; }
+    footer { padding: 2.75rem 0 0; border-top: 1px solid var(--hair); color: var(--ash); font-size: .9375rem; }
+    footer p { margin: 0; max-width: 40rem; }
+    footer a:hover { color: var(--paper); }
+
+    @media (max-width: 640px) {
+      .row { grid-template-columns: 1fr; padding: 2.25rem 0; }
+      .hero { padding-bottom: 5rem; }
+      h1 { margin-top: 2.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="mark" href="./"><img src="icon.png" alt="">Satsuma</a>
+    <nav><a href="https://github.com/justindurazzo/satsuma">GitHub</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="stage" id="stage">
+        <iframe id="demo" src="app/index.html?demo=rueda&amp;tipo=imagen&amp;lang=en&amp;loop" title="Interactive demo of the Satsuma conversion wheel" scrolling="no"></iframe>
+      </div>
+      <p class="hint" id="hint">This is the real wheel. Pick a format.</p>
+
+      <h1>Right-click. Pick a format. Done.</h1>
+      <p class="lede">A file converter that lives in Finder’s right-click menu. The new copy lands next to the original, and nothing leaves your Mac.</p>
+
+      <div class="cta">
+        <a class="download" href="https://github.com/justindurazzo/satsuma/releases/latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+          Download for Mac
+        </a>
+        <a class="source" href="https://github.com/justindurazzo/satsuma">View the source</a>
+      </div>
+      <p class="fine">Free and open source. macOS 11 or later, Apple Silicon and Intel.</p>
+    </section>
+
+    <div class="rows">
+      <section class="row">
+        <h2>What it converts</h2>
+        <ul class="kinds">
+          <li><b>Images</b><span>JPG, PNG, WebP, HEIC, TIFF, AVIF, SVG to each other or PDF</span></li>
+          <li><b>Audio</b><span>MP3, M4A, WAV, FLAC, OGG, Opus, AIFF</span></li>
+          <li><b>Video</b><span>MP4, MOV, MKV, WebM, AVI, plus GIF or MP3 out</span></li>
+          <li><b>PDF</b><span>to Word, images, EPUB, text or Markdown</span></li>
+          <li><b>Documents</b><span>Word, RTF, ODT, Markdown, HTML, EPUB to each other or PDF</span></li>
+          <li><b>Presentations</b><span>PowerPoint and ODP to PDF or images</span></li>
+          <li><b>Spreadsheets</b><span>Excel, ODS, CSV, TSV, or PDF</span></li>
+          <li><b>Subtitles and archives</b><span>SRT and VTT; ZIP, TAR and RAR; whole folders to ZIP</span></li>
+          <li><b>Quick fixes</b><span>Compress, trim, rotate, resize, strip metadata, mute video</span></li>
+        </ul>
+      </section>
+
+      <section class="row">
+        <h2>Install</h2>
+        <ol class="steps">
+          <li><div>Download the DMG and open it.</div></li>
+          <li><div>In Terminal, type <code>bash</code> and a space, drag in <b>Install Satsuma.command</b>, then press Return.<small>It adds Satsuma to Applications and to Finder’s right-click menu.</small></div></li>
+          <li><div>Say yes when it offers to install the converters.<small>Satsuma uses free tools like ffmpeg and LibreOffice, installed with Homebrew.</small></div></li>
+          <li><div>Right-click any file, then choose Quick Actions, Convert with Satsuma.</div></li>
+        </ol>
+      </section>
+
+      <footer>
+        <p>Satsuma is a macOS port of <a href="https://github.com/JorgeFTS/Mandarina">Mandarina</a>, the Linux converter by <a href="https://github.com/JorgeFTS">JorgeFTS</a>. Ported by <a href="https://github.com/justindurazzo">Justin Durazzo</a>. MIT licensed.</p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // Scale the 460px demo down on narrow screens
+    const stage = document.getElementById("stage"), frame = document.getElementById("demo");
+    const fit = () => { frame.style.transform = `scale(${stage.clientWidth / 460})`; };
+    addEventListener("resize", fit); fit();
+  </script>
+</body>
+</html>
