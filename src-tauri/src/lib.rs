@@ -57,6 +57,9 @@ pub fn run() {
 fn extend_path_macos() {
     let mut dirs: Vec<std::path::PathBuf> = Vec::new();
     if let Some(home) = std::env::var_os("HOME").map(std::path::PathBuf::from) {
+        // Optional dedicated toolset (e.g. a conda env), searched first so its matching
+        // ffmpeg/ffprobe pair wins over older copies elsewhere on the machine
+        dirs.push(home.join(".local/opt/mandarina-tools/bin"));
         dirs.push(home.join(".local/bin"));
         dirs.push(home.join("Applications/LibreOffice.app/Contents/MacOS"));
     }

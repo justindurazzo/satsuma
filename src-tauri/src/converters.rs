@@ -1898,11 +1898,16 @@ trailer<</Root 1 0 R/Size 6>>\n%%EOF\n";
         std::fs::remove_dir_all(&dir).unwrap();
     }
 
+    #[cfg(target_os = "macos")]
+    const HINT_X: &str = "brew install x";
+    #[cfg(not(target_os = "macos"))]
+    const HINT_X: &str = "sudo apt install x";
+
     #[test]
     fn avisa_si_falta_una_herramienta() {
         assert_eq!(
             need(&["herramienta_que_no_existe"], "sudo apt install x"),
-            Err("herramienta_que_no_existe not found. Install it with: sudo apt install x".to_string())
+            Err(format!("herramienta_que_no_existe not found. Install it with: {}", HINT_X))
         );
         // With several options it is enough that one exists
         assert_eq!(need(&["herramienta_que_no_existe", "sh"], "x"), Ok("sh".to_string()));
@@ -2463,7 +2468,7 @@ trailer<</Root 1 0 R/Size 6>>\n%%EOF\n";
         assert_eq!(many(&[xyz.to_string()]).unwrap().failed[0].error, "Tipo de archivo no soportado");
         assert_eq!(
             need(&["herramienta_que_no_existe"], "sudo apt install x"),
-            Err("No se encontró herramienta_que_no_existe. Instálalo con: sudo apt install x".to_string())
+            Err(format!("No se encontró herramienta_que_no_existe. Instálalo con: {}", HINT_X))
         );
         assert_eq!(cancelled_run(), Err("[cancelled] Cancelado".to_string()));
         crate::lang::set_lang(crate::lang::Lang::En);

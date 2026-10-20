@@ -293,6 +293,8 @@ mod tests {
     fn rutas_iniciales_desde_argumentos() {
         let dir = std::env::temp_dir().join(format!("mandarina_w_{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
+        // Real path: on macOS the temp dir lives behind the /var -> /private/var symlink
+        let dir = dir.canonicalize().unwrap();
         let file = dir.join("a.txt");
         let other = dir.join("b b.txt");
         std::fs::write(&file, b"x").unwrap();
