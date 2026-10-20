@@ -299,6 +299,7 @@ const api = demo
       resize_center: async () => {},
       show_wheel: async () => {},
       place_wheel: async () => {},
+      cursor_in_window: async () => null,
       center_wheel: async () => {},
       thumbnail: async () => {
         await esperar(500);
@@ -328,6 +329,7 @@ const api = demo
       get_targets_many: (paths) => tauri.core.invoke("get_targets_many", { paths }),
       show_wheel: () => tauri.core.invoke("show_wheel"),
       place_wheel: (x, y) => tauri.core.invoke("place_wheel", { x, y }),
+      cursor_in_window: () => tauri.core.invoke("cursor_in_window"),
       center_wheel: () => tauri.core.invoke("center_wheel"),
       get_tools: (path) => tauri.core.invoke("get_tools", { path }),
       run_tool: (path, tool, option, params) => tauri.core.invoke("run_tool", { path, tool, option, params }),
@@ -1126,7 +1128,9 @@ async function mostrarVentana() {
     await api.center_wheel();
     await esperar(150);
   } else if (sobreCursor) {
-    posRueda = await esperarCursor();
+    // macOS can report the cursor directly; elsewhere wait for the first mouse event
+    const punto = await api.cursor_in_window().catch(() => null);
+    posRueda = punto ? { x: punto[0], y: punto[1] } : await esperarCursor();
     await api.place_wheel(posRueda.x, posRueda.y);
     await esperar(150); // so that the page adapts to the new size before showing the wheel
   }

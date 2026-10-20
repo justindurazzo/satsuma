@@ -203,7 +203,28 @@ pub(crate) fn need(names: &[&str], hint: &str) -> Result<String, String> {
             return Ok(name.to_string());
         }
     }
+    #[cfg(target_os = "macos")]
+    let hint = &brew_hint(hint);
     Err(tr!("{name} not found. Install it with: {hint}", "No se encontró {name}. Instálalo con: {hint}", name = names[0], hint = hint))
+}
+
+// The hints are written for apt; on macOS they become the Homebrew equivalent
+#[cfg(target_os = "macos")]
+fn brew_hint(hint: &str) -> String {
+    let Some(packages) = hint.strip_prefix("sudo apt install ") else {
+        return hint.to_string();
+    };
+    let mapped: Vec<&str> = packages
+        .split_whitespace()
+        .map(|p| match p {
+            "libreoffice" => "--cask libreoffice",
+            "poppler-utils" => "poppler",
+            "librsvg2-bin" => "librsvg",
+            "7zip" | "p7zip-full" => "sevenzip",
+            other => other,
+        })
+        .collect();
+    format!("brew install {}", mapped.join(" "))
 }
 
 fn run(program: &str, args: &[&str]) -> Result<(), String> {
