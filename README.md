@@ -17,7 +17,7 @@ Images, audio, video, PDF, documents, presentations, spreadsheets, subtitles, ar
 
 ## Install
 
-Download `Satsuma-<version>.dmg`, open it, and follow `Read Me.txt` (run `Install Satsuma.command`). The installer copies the app, adds the Finder Quick Action and offers to install the converters with Homebrew:
+**[⬇ Download the latest DMG](https://github.com/justindurazzo/satsuma/releases/latest)**, open it, and follow `Read Me.txt` (run `Install Satsuma.command`). The installer copies the app, adds the Finder Quick Action and offers to install the converters with Homebrew:
 
 ```bash
 brew install ffmpeg imagemagick pandoc poppler ghostscript librsvg sevenzip
