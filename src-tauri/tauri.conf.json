@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Mandarina",
+  "productName": "Satsuma",
   "version": "0.1.0",
-  "identifier": "com.mandarina.converter",
+  "identifier": "com.satsuma.converter",
   "build": {
     "frontendDist": "../src"
   },
@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Mandarina",
+        "title": "Satsuma",
         "width": 460,
         "height": 460,
         "transparent": true,
@@ -31,12 +31,11 @@
   "bundle": {
     "active": true,
     "targets": [
-      "deb",
       "app"
     ],
     "category": "Utility",
     "shortDescription": "File converter with a floating radial wheel",
-    "longDescription": "Mandarina converts files locally (images, audio, video, documents, PDF, spreadsheets, subtitles and archives) from a radial wheel that appears next to the cursor, and offers tools such as compress, trim, rotate and resize. It uses ffmpeg, ImageMagick, pandoc, LibreOffice, poppler and ghostscript.",
+    "longDescription": "Satsuma converts files locally (images, audio, video, documents, PDF, spreadsheets, subtitles and archives) from a radial wheel that appears next to the cursor, and offers tools such as compress, trim, rotate and resize. It uses ffmpeg, ImageMagick, pandoc, LibreOffice, poppler and ghostscript. A macOS port of Mandarina by JorgeFTS (github.com/JorgeFTS/Mandarina), MIT licensed.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -44,30 +43,9 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "linux": {
-      "deb": {
-        "depends": [],
-        "files": {
-          "/usr/share/mandarina/install-nautilus.sh": "../packaging/install-nautilus.sh",
-          "/usr/share/mandarina/install-nemo.sh": "../packaging/install-nemo.sh",
-          "/usr/share/mandarina/nautilus/mandarina-script": "../packaging/nautilus/mandarina-script"
-        },
-        "recommends": [
-          "ffmpeg",
-          "imagemagick",
-          "librsvg2-bin",
-          "pandoc",
-          "libreoffice",
-          "poppler-utils",
-          "ghostscript",
-          "zip",
-          "unzip",
-          "7zip | p7zip-full"
-        ]
-      }
-    },
     "macOS": {
       "minimumSystemVersion": "11.0"
-    }
+    },
+    "copyright": "Satsuma macOS port © 2026 Justin Durazzo. Based on Mandarina © 2026 JorgeFTS (MIT)."
   }
 }

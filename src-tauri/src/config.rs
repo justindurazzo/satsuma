@@ -1,5 +1,5 @@
 // User settings: the formats the wheel shows, the language and the color. See docs/Settings.md.
-// They are saved in ~/.config/mandarina/config.json; with no file, or with invalid data, the usual
+// They are saved in ~/.config/satsuma/config.json; with no file, or with invalid data, the usual
 // lists from converters.rs are used.
 use crate::converters::{type_targets, Kind};
 use crate::lang::{Lang, LANGUAGES};
@@ -113,8 +113,8 @@ fn check_accent(value: &str) -> Result<String, String> {
 fn config_path() -> PathBuf {
     let base = std::env::var_os("MANDARINA_CONFIG_DIR")
         .map(PathBuf::from)
-        .or_else(|| std::env::var_os("XDG_CONFIG_HOME").filter(|v| !v.is_empty()).map(|v| PathBuf::from(v).join("mandarina")))
-        .or_else(|| std::env::var_os("HOME").map(|home| PathBuf::from(home).join(".config").join("mandarina")))
+        .or_else(|| std::env::var_os("XDG_CONFIG_HOME").filter(|v| !v.is_empty()).map(|v| PathBuf::from(v).join("satsuma")))
+        .or_else(|| std::env::var_os("HOME").map(|home| PathBuf::from(home).join(".config").join("satsuma")))
         .unwrap_or_else(|| PathBuf::from("."));
     base.join("config.json")
 }

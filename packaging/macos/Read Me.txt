@@ -1,0 +1,39 @@
+SATSUMA 🍊
+A fast, fun file converter for macOS. Right-click a file, pick a format from a
+little wheel that pops up next to your cursor, and the converted copy appears
+right next to the original. Everything runs on your Mac; nothing is uploaded.
+
+It converts images, audio, video, PDFs, documents, presentations, spreadsheets,
+subtitles and archives (250+ combinations), and the "Tools" slice can compress,
+trim, rotate, resize and strip metadata.
+
+
+INSTALL
+
+1. Open Terminal (Applications → Utilities → Terminal).
+2. Type  bash   followed by a space, drag "Install Satsuma.command" from this
+   window into Terminal, and press Return.
+3. If it offers to install converters with Homebrew, say yes.
+
+(You can also double-click "Install Satsuma.command". macOS may block it because
+it isn't from a registered developer. If so: System Settings → Privacy & Security
+→ scroll down → "Open Anyway".)
+
+Works on Apple Silicon and Intel Macs, macOS 11 or later.
+
+
+USE
+
+Select one or more files in Finder → right-click → Quick Actions →
+Convert with Satsuma. Pick a format. Done.
+The new file is saved in the same folder as the original.
+
+The wheel closes if you click outside it, press Esc, or leave it untouched
+for a few seconds.
+
+
+CREDITS
+
+Satsuma is a macOS port of Mandarina, created by JorgeFTS:
+https://github.com/JorgeFTS/Mandarina
+Ported to macOS by Justin Durazzo. MIT licensed — see LICENSE.txt.

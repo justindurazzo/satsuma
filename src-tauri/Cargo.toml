@@ -1,10 +1,10 @@
 [package]
-name = "mandarina"
+name = "satsuma"
 version = "0.1.0"
-description = "File converter for Linux with a floating radial wheel, launched from Nautilus. Converts images, audio, video, documents and more locally."
-authors = ["JorgeFTS"]
+description = "macOS port of Mandarina (by JorgeFTS): file converter with a floating radial wheel, launched from Finder. Converts images, audio, video, documents and more locally."
+authors = ["JorgeFTS", "Justin Durazzo (macOS port)"]
 license = "MIT"
-keywords = ["converter", "ffmpeg", "tauri", "linux", "nautilus"]
+keywords = ["converter", "ffmpeg", "tauri", "macos", "finder"]
 categories = ["multimedia"]
 repository = "https://github.com/JorgeFTS/Mandarina"
 edition = "2024"
