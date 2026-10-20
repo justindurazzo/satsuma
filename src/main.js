@@ -1164,6 +1164,16 @@ function vigilarAbandono() {
   };
   document.addEventListener("mousemove", reiniciar);
   document.addEventListener("keydown", reiniciar);
+  // macOS may show the window without focus (launched from a Quick Action), and then the page gets
+  // no mousemove: the cursor is asked for directly so that moving it still counts as activity.
+  // Elsewhere cursor_in_window returns null and the polling stops at once.
+  let ultimo = null;
+  const sondeo = setInterval(async () => {
+    const punto = await api.cursor_in_window().catch(() => null);
+    if (!punto || vistaActual !== "rueda") return punto || clearInterval(sondeo);
+    if (ultimo && (punto[0] !== ultimo[0] || punto[1] !== ultimo[1])) reiniciar();
+    ultimo = punto;
+  }, 250);
   rearmarAbandono = reiniciar;
   reiniciar();
   // It is armed a little later: when the window changes size it may lose focus for a moment
