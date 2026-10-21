@@ -27,10 +27,10 @@ open -n -b com.satsuma.converter --args "$@"</string>
 		<key>CanShowWhenRun</key><true/>
 		<key>Category</key><array><string>AMCategoryUtilities</string></array>
 		<key>Class Name</key><string>RunShellScriptAction</string>
-		<key>InputUUID</key><string>A1B2C3D4-0000-4000-8000-000000000001</string>
+		<key>InputUUID</key><string>676E32C3-98CB-4BC9-9FD6-ED4720773013</string>
 		<key>Keywords</key><array><string>Shell</string><string>Script</string></array>
-		<key>OutputUUID</key><string>A1B2C3D4-0000-4000-8000-000000000002</string>
-		<key>UUID</key><string>A1B2C3D4-0000-4000-8000-000000000003</string>
+		<key>OutputUUID</key><string>5B2C1C44-24B3-41C9-8570-4223C54A4F2D</string>
+		<key>UUID</key><string>6958EFB9-0D99-4E19-9D29-DFBCA20AE3D7</string>
 		<key>UnlocalizedApplications</key><array><string>Automator</string></array>
 		<key>arguments</key><dict/>
 		<key>isViewVisible</key><integer>1</integer>
